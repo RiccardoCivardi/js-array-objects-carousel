@@ -110,7 +110,6 @@ stopButton.addEventListener('click', function(){
 });
 
 
-
 function print() {
   
   printSlider();
@@ -128,17 +127,6 @@ function print() {
   text = document.getElementsByClassName('text');
   thumbnailContainer = document.getElementsByClassName('thumbnail-container');
   thumbnailImg = document.getElementsByClassName('thumbnail');
-
-  // 8
-  // creo HTML collection delle thumbnails 
-  const thumbnailImage = document.getElementsByClassName('thumbnail-container');
-  // ciclo la collection per dare l'addEventListener ad ogni thumbnails
-  for(thumb of thumbnailImage){
-  console.log(thumb);
-  thumb.addEventListener('click', function(){
-    onClick(image, text, thumbnailContainer, thumbnailImg);
-  })
-  } 
 }
 
 function printSlider() {
@@ -181,6 +169,13 @@ function printTumbnails() {
   // stampo il nuovo html
   thumbnail.innerHTML = printThumbnailsHtml;
   
+  // 8
+  // creo HTML collection delle thumbnails 
+  const thumbnailImage = document.getElementsByClassName('thumbnail-container');
+  // ciclo la collection per dare l'addEventListener ad ogni thumbnails
+  for(thumb of thumbnailImage){
+  thumb.addEventListener('click', onClick)
+  } 
 }
 
 // alla funzione passo image che è il paramentro inplicito del map che la richiama in printSlider
@@ -197,6 +192,7 @@ function generateThumbnails(image) {
 
 function nextPrev(isNext) {
   
+  // rimuovo le classi
   removeClass(image, text, thumbnailContainer, thumbnailImg);
 
   // condizioni per incrementare o decrementare il contatore e creare il loop
@@ -208,6 +204,7 @@ function nextPrev(isNext) {
     if(sliderCounter < 0) sliderCounter = numImages - 1;
   }
 
+  // assegno le classi
   addClass(image, text, thumbnailContainer, thumbnailImg); 
 }
 
@@ -227,13 +224,13 @@ function addClass (image, text, thumbnailContainer, thumbnailImg){
   thumbnailImg[sliderCounter].classList.add('active');
 }
 
-function onClick(image, text, thumbnailContainer, thumbnailImg) {
-  // removeClass(image, text, thumbnailContainer, thumbnailImg);
-  console.log(this)
-  sliderCounter = this.id
-  console.log(sliderCounter);
-  
-  // addClass(image, text, thumbnailContainer, thumbnailImg);
+function onClick() {
+  // rimuovo le classi
+  removeClass (image, text, thumbnailContainer, thumbnailImg)
+  //porto lo slider al valore dell' id
+  sliderCounter = this.id;
+  // assegno le classi con il contatore aggiornato
+  addClass (image, text, thumbnailContainer, thumbnailImg)
 }
 
 
