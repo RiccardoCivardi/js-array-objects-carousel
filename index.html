@@ -14,9 +14,6 @@
   <!-- MAIN STYLES -->
   <link rel="stylesheet" href="css/style.css">
 
-  <!-- SCRIPT JS -->
-  <script defer src="js/app.js"></script>
-
   <title>Carosello Array di Oggetti</title>
 
 </head>
@@ -28,52 +25,27 @@
 
       <div class="slider">
 
-        <div class="text">
-          <h3 class="title">TITOLO</h3>
-          <p class="description">descrizione</p>
-        </div>
-
-        <img class="active" src="http://www.viaggiareonline.it/wp-content/uploads/2014/11/sweden_148857365.jpg" alt="Svezia">
-        <img src="https://static1.evcdn.net/images/reduction/1513757_w-1920_h-1080_q-70_m-crop.jpg" alt="Perù">
-        <img src="https://img.itinari.com/pages/images/original/0d3ed180-d22d-48e8-84df-19c4d888b41f-62-crop.jpg?ch=DPR&dpr=2.625&w=1600&s=7ebd4b5a9e045f41b4e0c7c75d298d6c" alt="Chile">
-        <img src="https://static1.evcdn.net/images/reduction/1583177_w-1920_h-1080_q-70_m-crop.jpg" alt="Argentina">
-        <img src="https://cdn.sanity.io/images/24oxpx4s/prod/ed09eff0362396772ad50ec3bfb728d332eb1c30-3200x2125.jpg?w=1600&h=1063&fit=crop" alt="Colombia">
-
         <div class="arrows d-flex justify-content-between align-items-center">
-          <i class="fa-solid fa-arrow-left"></i>
-          <i class="fa-solid fa-arrow-right"></i>
+          <i id="prev" class="fa-solid fa-arrow-left"></i>
+          <i id="next" class="fa-solid fa-arrow-right"></i>
         </div>
 
       </div>
 
-      <div class="thumbnails-container d-flex">
-        
-        <div class="thumbnail-container active">
-          <img class="thumbnail active" src="http://www.viaggiareonline.it/wp-content/uploads/2014/11/sweden_148857365.jpg" alt="Svezia">
-        </div>
-        <div class="thumbnail-container">
-          <img class="thumbnail" src="https://static1.evcdn.net/images/reduction/1513757_w-1920_h-1080_q-70_m-crop.jpg" alt="Perù">
-        </div>
-        <div class="thumbnail-container">
-          <img class="thumbnail" src="https://img.itinari.com/pages/images/original/0d3ed180-d22d-48e8-84df-19c4d888b41f-62-crop.jpg?ch=DPR&dpr=2.625&w=1600&s=7ebd4b5a9e045f41b4e0c7c75d298d6c" alt="Chile">
-        </div>
-        <div class="thumbnail-container">
-          <img class="thumbnail" src="https://static1.evcdn.net/images/reduction/1583177_w-1920_h-1080_q-70_m-crop.jpg" alt="Argentina">
-        </div>
-        <div class="thumbnail-container">
-          <img class="thumbnail" src="https://cdn.sanity.io/images/24oxpx4s/prod/ed09eff0362396772ad50ec3bfb728d332eb1c30-3200x2125.jpg?w=1600&h=1063&fit=crop" alt="Colombia">
-        </div>  
-        
-      </div>
+      <div class="thumbnails-container d-flex"></div>
 
     </div>
 
     <div class="button">
-      <button class="btn btn-primary me-3">Inverti l'ordine di scorrimento</button>
-      <button class="btn btn-primary">Interrompi lo scorrimento</button>
+      <button id="invert" class="btn btn-primary me-3">Inverti l'ordine di scorrimento</button>
+      <button id="stop" class="btn btn-primary">Stop / Via</button>
+      
     </div>
 
   </div>
+
+  <!-- SCRIPT JS -->
+  <script src="js/app.js"></script>
   
 </body>
 </html>
