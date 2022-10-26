@@ -14,27 +14,32 @@ const images = [
   {
    title: 'Svezia',
    description: 'Una vita senza amore è come un anno senza estate',
-   url: 'http://www.viaggiareonline.it/wp-content/uploads/2014/11/sweden_148857365.jpg'  
+   url: 'http://www.viaggiareonline.it/wp-content/uploads/2014/11/sweden_148857365.jpg',
+   id: 0 
   },
   {
    title: 'Perù',
    description: 'Signora Presidente, il Perù è sempre stata la nostra pecora nera in America latina',
-   url: 'https://static1.evcdn.net/images/reduction/1513757_w-1920_h-1080_q-70_m-crop.jpg' 
+   url: 'https://static1.evcdn.net/images/reduction/1513757_w-1920_h-1080_q-70_m-crop.jpg',
+   id: 1
   },
   {
    title: 'Chile',
    description: 'Il Cile è un paese maschilista: l\'aria è talmente densa di testosterone che è un miracolo se alle donne non spuntano i peli in faccia',
-   url: 'https://img.itinari.com/pages/images/original/0d3ed180-d22d-48e8-84df-19c4d888b41f-62-crop.jpg?ch=DPR&dpr=2.625&w=1600&s=7ebd4b5a9e045f41b4e0c7c75d298d6c' 
+   url: 'https://img.itinari.com/pages/images/original/0d3ed180-d22d-48e8-84df-19c4d888b41f-62-crop.jpg?ch=DPR&dpr=2.625&w=1600&s=7ebd4b5a9e045f41b4e0c7c75d298d6c',
+   id: 2 
   },
   {
    title: 'Argentina',
    description: 'La storia di Buenos Aires sta scritta nel suo elenco telefonico',
-   url: 'https://static1.evcdn.net/images/reduction/1583177_w-1920_h-1080_q-70_m-crop.jpg' 
+   url: 'https://static1.evcdn.net/images/reduction/1583177_w-1920_h-1080_q-70_m-crop.jpg',
+   id: 3
   },
   {
    title: 'Colombia',
    description: 'In Colombia avere le allucinazioni è una normalità',
-   url: 'https://cdn.sanity.io/images/24oxpx4s/prod/ed09eff0362396772ad50ec3bfb728d332eb1c30-3200x2125.jpg?w=1600&h=1063&fit=crop' 
+   url: 'https://cdn.sanity.io/images/24oxpx4s/prod/ed09eff0362396772ad50ec3bfb728d332eb1c30-3200x2125.jpg?w=1600&h=1063&fit=crop',
+   id: 4 
   }
 ];
 
@@ -43,14 +48,15 @@ const el = document.querySelector.bind(document);
 
 // prendo gli elementi dal dom
 const carousel = el('.carousel');
-const slider = el('.slider');
+const sliderImage = el('.slider-image');
 const thumbnail = el('.thumbnails-container');
 const prevButton = el('#prev');
 const nextButton = el('#next');
 const invertButton = el('#invert');
 const stopButton = el('#stop');
-// creo HTML collection delle thumbnails 
-const thumbnailImage = document.getElementsByClassName('thumbnail');
+
+//variabili movimento
+let image, text, thumbnailContainer, thumbnailImg; 
 
 // variabili
 const numImages = images.length;
@@ -63,15 +69,16 @@ let isStop = false;
 
 //  2 - 3
 print()
-console.log(prevButton)
+
 // 4
 prevButton.addEventListener('click', function(){
-  nextPrev(true);
-})
+  nextPrev(false);
+});
 
 nextButton.addEventListener('click', function(){
-  nextPrev(false);
-})
+  nextPrev(true);
+});
+
 
 // 5
 const autoplay = setInterval(function(){
@@ -102,35 +109,37 @@ stopButton.addEventListener('click', function(){
   else isStop = false;
 });
 
-// 8
-console.log(thumbnailImage)
-// ciclo la collection per dare l'addEventListener ad ogni thumbnails
-// thumbnailImage.map((thumb, index) => {
-//   thumb.addEventListener('click', function(){
-//     console.log(index);
-//     onClick(index);
-//   });
-// }); 
 
- 
-  
-// -------------------------------------------------------------
 
 function print() {
   
   printSlider();
 
   printTumbnails();
+
   // assegno le classi alla prima immagini
   el('.text').classList.add('active');
   el('.image').classList.add('active');
   el('.thumbnail-container').classList.add('active');
-  el('.thumbnail').classList.add('active');
+  el('.thumbnail').classList.add('active'); 
 
-  
+  // creo html collection di ogni elemento che si deve muovere
+  image = document.getElementsByClassName('image');
+  text = document.getElementsByClassName('text');
+  thumbnailContainer = document.getElementsByClassName('thumbnail-container');
+  thumbnailImg = document.getElementsByClassName('thumbnail');
+
+  // 8
+  // creo HTML collection delle thumbnails 
+  const thumbnailImage = document.getElementsByClassName('thumbnail-container');
+  // ciclo la collection per dare l'addEventListener ad ogni thumbnails
+  for(thumb of thumbnailImage){
+  console.log(thumb);
+  thumb.addEventListener('click', function(){
+    onClick(image, text, thumbnailContainer, thumbnailImg);
+  })
+  } 
 }
-
-
 
 function printSlider() {
   // filtro con map per avere un array di strighe. non do il parametro a map ma solo la funzione perchè è implicito 
@@ -138,11 +147,11 @@ function printSlider() {
   // trasformo array in stringa
   const printSliderHtml = printSliderArray.join('');
   // prendo html originale di slider
-  let sliderHtml = slider.innerHTML;
+  let sliderHtml = sliderImage.innerHTML;
   // gli concateno la stringa creata
   sliderHtml += printSliderHtml;
   // stampo il nuovo html
-  slider.innerHTML = sliderHtml;
+  sliderImage.innerHTML = sliderHtml;
 }
 
 // alla funzione passo image che è il paramentro inplicito del map che la richiama in printSlider
@@ -171,13 +180,14 @@ function printTumbnails() {
   const printThumbnailsHtml = printThumbnailsArray.join('');
   // stampo il nuovo html
   thumbnail.innerHTML = printThumbnailsHtml;
+  
 }
 
 // alla funzione passo image che è il paramentro inplicito del map che la richiama in printSlider
 function generateThumbnails(image) {
   //creo thumbnails
   const thumbnailsHtml = `
-    <div class="thumbnail-container">
+    <div id="${image.id}" class="thumbnail-container">
       <img class="thumbnail" src="${image.url}" alt="${image.title}">
     </div>
   `;
@@ -186,17 +196,8 @@ function generateThumbnails(image) {
 }
 
 function nextPrev(isNext) {
-  // creo html collection di ogni elemento che si deve muovere
-  const image = document.getElementsByClassName('image');
-  const text = document.getElementsByClassName('text');
-  const thumbnailContainer = document.getElementsByClassName('thumbnail-container');
-  const thumbnail = document.getElementsByClassName('thumbnail');
-
-  //rimuovo tutte le classi active attuali
-  image[sliderCounter].classList.remove('active');
-  text[sliderCounter].classList.remove('active');
-  thumbnailContainer[sliderCounter].classList.remove('active');
-  thumbnail[sliderCounter].classList.remove('active');
+  
+  removeClass(image, text, thumbnailContainer, thumbnailImg);
 
   // condizioni per incrementare o decrementare il contatore e creare il loop
   if(isNext) {
@@ -207,14 +208,36 @@ function nextPrev(isNext) {
     if(sliderCounter < 0) sliderCounter = numImages - 1;
   }
 
+  addClass(image, text, thumbnailContainer, thumbnailImg); 
+}
+
+function removeClass (image, text, thumbnailContainer, thumbnailImg){
+  //rimuovo tutte le classi active attuali
+  image[sliderCounter].classList.remove('active');
+  text[sliderCounter].classList.remove('active');
+  thumbnailContainer[sliderCounter].classList.remove('active');
+  thumbnailImg[sliderCounter].classList.remove('active');
+}
+
+function addClass (image, text, thumbnailContainer, thumbnailImg){
   // aggiungo tutte le classi active attuali dopo aver modificato il contatore
   image[sliderCounter].classList.add('active');
   text[sliderCounter].classList.add('active');
   thumbnailContainer[sliderCounter].classList.add('active');
-  thumbnail[sliderCounter].classList.add('active');
+  thumbnailImg[sliderCounter].classList.add('active');
 }
 
-function onClick(index){
-  console.log(index);
-  sliderCounter = index;
+function onClick(image, text, thumbnailContainer, thumbnailImg) {
+  // removeClass(image, text, thumbnailContainer, thumbnailImg);
+  console.log(this)
+  sliderCounter = this.id
+  console.log(sliderCounter);
+  
+  // addClass(image, text, thumbnailContainer, thumbnailImg);
 }
+
+
+
+
+  
+
