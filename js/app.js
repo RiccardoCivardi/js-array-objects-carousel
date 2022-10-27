@@ -76,7 +76,7 @@ nextButton.addEventListener('click', function(){
 
 
 // 5
-const autoplay = setInterval(function(){
+setInterval(function(){
   // l'autoplay parte solo se isOver e isStop sono falsi entrambi
   if(!isOver && !isStop) nextPrev(isNext);
 }, 2000);
