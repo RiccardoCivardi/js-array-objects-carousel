@@ -14,32 +14,27 @@ const images = [
   {
    title: 'Svezia',
    description: 'Una vita senza amore è come un anno senza estate',
-   url: 'http://www.viaggiareonline.it/wp-content/uploads/2014/11/sweden_148857365.jpg',
-   id: 0 
+   url: 'http://www.viaggiareonline.it/wp-content/uploads/2014/11/sweden_148857365.jpg'
   },
   {
    title: 'Perù',
    description: 'Signora Presidente, il Perù è sempre stata la nostra pecora nera in America latina',
-   url: 'https://static1.evcdn.net/images/reduction/1513757_w-1920_h-1080_q-70_m-crop.jpg',
-   id: 1
+   url: 'https://static1.evcdn.net/images/reduction/1513757_w-1920_h-1080_q-70_m-crop.jpg'
   },
   {
    title: 'Chile',
    description: 'Il Cile è un paese maschilista: l\'aria è talmente densa di testosterone che è un miracolo se alle donne non spuntano i peli in faccia',
-   url: 'https://img.itinari.com/pages/images/original/0d3ed180-d22d-48e8-84df-19c4d888b41f-62-crop.jpg?ch=DPR&dpr=2.625&w=1600&s=7ebd4b5a9e045f41b4e0c7c75d298d6c',
-   id: 2 
+   url: 'https://img.itinari.com/pages/images/original/0d3ed180-d22d-48e8-84df-19c4d888b41f-62-crop.jpg?ch=DPR&dpr=2.625&w=1600&s=7ebd4b5a9e045f41b4e0c7c75d298d6c'
   },
   {
    title: 'Argentina',
    description: 'La storia di Buenos Aires sta scritta nel suo elenco telefonico',
-   url: 'https://static1.evcdn.net/images/reduction/1583177_w-1920_h-1080_q-70_m-crop.jpg',
-   id: 3
+   url: 'https://static1.evcdn.net/images/reduction/1583177_w-1920_h-1080_q-70_m-crop.jpg'
   },
   {
    title: 'Colombia',
    description: 'In Colombia avere le allucinazioni è una normalità',
-   url: 'https://cdn.sanity.io/images/24oxpx4s/prod/ed09eff0362396772ad50ec3bfb728d332eb1c30-3200x2125.jpg?w=1600&h=1063&fit=crop',
-   id: 4 
+   url: 'https://cdn.sanity.io/images/24oxpx4s/prod/ed09eff0362396772ad50ec3bfb728d332eb1c30-3200x2125.jpg?w=1600&h=1063&fit=crop'
   }
 ];
 
@@ -116,17 +111,10 @@ function print() {
 
   printTumbnails();
 
-  // assegno le classi alla prima immagini
-  el('.text').classList.add('active');
-  el('.image').classList.add('active');
-  el('.thumbnail-container').classList.add('active');
-  el('.thumbnail').classList.add('active'); 
+  addClassFirst();
 
-  // creo html collection di ogni elemento che si deve muovere
-  image = document.getElementsByClassName('image');
-  text = document.getElementsByClassName('text');
-  thumbnailContainer = document.getElementsByClassName('thumbnail-container');
-  thumbnailImg = document.getElementsByClassName('thumbnail');
+  htmlCollection();
+
 }
 
 function printSlider() {
@@ -178,11 +166,11 @@ function printTumbnails() {
   } 
 }
 
-// alla funzione passo image che è il paramentro inplicito del map che la richiama in printSlider
-function generateThumbnails(image) {
+// alla funzione passo image e index che sono i paramentri inpliciti del map che la richiama in printSlider
+function generateThumbnails(image, index) {
   //creo thumbnails
   const thumbnailsHtml = `
-    <div id="${image.id}" class="thumbnail-container">
+    <div id="${index}" class="thumbnail-container">
       <img class="thumbnail" src="${image.url}" alt="${image.title}">
     </div>
   `;
@@ -190,10 +178,26 @@ function generateThumbnails(image) {
   return thumbnailsHtml;
 }
 
+function addClassFirst(){
+  // assegno le classi alla prima immagine 
+  el('.text').classList.add('active');
+  el('.image').classList.add('active');
+  el('.thumbnail-container').classList.add('active');
+  el('.thumbnail').classList.add('active'); 
+}
+
+function htmlCollection(){
+  // creo html collection di ogni elemento che si deve muovere
+  image = document.getElementsByClassName('image');
+  text = document.getElementsByClassName('text');
+  thumbnailContainer = document.getElementsByClassName('thumbnail-container');
+  thumbnailImg = document.getElementsByClassName('thumbnail');
+}
+
 function nextPrev(isNext) {
   
   // rimuovo le classi
-  removeClass(image, text, thumbnailContainer, thumbnailImg);
+  removeClass();
 
   // condizioni per incrementare o decrementare il contatore e creare il loop
   if(isNext) {
@@ -205,10 +209,10 @@ function nextPrev(isNext) {
   }
 
   // assegno le classi
-  addClass(image, text, thumbnailContainer, thumbnailImg); 
+  addClass(); 
 }
 
-function removeClass (image, text, thumbnailContainer, thumbnailImg){
+function removeClass (){
   //rimuovo tutte le classi active attuali
   image[sliderCounter].classList.remove('active');
   text[sliderCounter].classList.remove('active');
@@ -216,7 +220,7 @@ function removeClass (image, text, thumbnailContainer, thumbnailImg){
   thumbnailImg[sliderCounter].classList.remove('active');
 }
 
-function addClass (image, text, thumbnailContainer, thumbnailImg){
+function addClass (){
   // aggiungo tutte le classi active attuali dopo aver modificato il contatore
   image[sliderCounter].classList.add('active');
   text[sliderCounter].classList.add('active');
@@ -226,11 +230,11 @@ function addClass (image, text, thumbnailContainer, thumbnailImg){
 
 function onClick() {
   // rimuovo le classi
-  removeClass (image, text, thumbnailContainer, thumbnailImg)
+  removeClass ();
   //porto lo slider al valore dell' id
   sliderCounter = this.id;
   // assegno le classi con il contatore aggiornato
-  addClass (image, text, thumbnailContainer, thumbnailImg)
+  addClass ();
 }
 
 
